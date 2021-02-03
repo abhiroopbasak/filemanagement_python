@@ -1,0 +1,32 @@
+from pymongo import MongoClient
+import requests
+from pprint import pprint
+import csv
+#import pandas
+
+
+client=MongoClient("mongodb+srv://admin_project:project@clusterlarkai1.idztf.mongodb.net/student?retryWrites=true&w=majority")
+db=client.get_database('studentdb')
+records=db.student
+
+db=list(records.find())
+
+
+csv_columns=['_id','date','time','temperature','humidity','male','female','subject','teacher','department','section','semester','promixity_to_exam','distm10','distl10','holiday','attendance']
+
+
+csv_file='db.csv'
+
+with open(csv_file,'w') as csvfile:
+  writer=csv.DictWriter(csvfile,fieldnames=csv_columns)
+  writer.writeheader()
+  for data in db:
+    writer.writerow(data)
+
+
+
+
+import holidays
+ind_holiday = holidays.India(years=2021)
+print(ind_holiday)
+
